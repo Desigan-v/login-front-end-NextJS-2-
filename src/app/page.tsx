@@ -1,9 +1,10 @@
 'use client';
+
 import React from 'react';
 import { Button, Typography, Container } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   const router = useRouter();
 
   return (

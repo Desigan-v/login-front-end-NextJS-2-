@@ -3,12 +3,16 @@ import { useState } from 'react';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import axios from 'axios';
 
+interface ErrorResponse {
+  error: string;
+}
+
 const Signup = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const handleSignup = async () => {
     if (password !== confirmPassword) {
@@ -17,14 +21,19 @@ const Signup = () => {
     }
     
     try {
-      const response = await axios.post('http://localhost:3000/api/signup', {
+      const response = await axios.post<{ message: string }>('http://localhost:3000/api/signup', {
         username,
         password,
         email,
       });
       alert(response.data.message);
-    } catch (error) {
-      setError(error.response.data.error);
+    } catch (error: any) {
+      // Handling axios error, assuming the error has response data of type ErrorResponse
+      if (error.response) {
+        setError(error.response.data.error);
+      } else {
+        setError('An unexpected error occurred.');
+      }
     }
   };
 
@@ -50,7 +59,7 @@ const Signup = () => {
         />
         <TextField 
           label="Password" 
-          type="" 
+          type="password" 
           value={password} 
           onChange={(e) => setPassword(e.target.value)} 
           variant="outlined" 

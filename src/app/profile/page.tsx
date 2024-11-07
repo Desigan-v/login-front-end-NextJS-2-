@@ -5,14 +5,19 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
+interface UserProfile {
+  username: string;
+  email: string;
+}
+
 const ProfilePage = () => {
   const router = useRouter();
-  const [resetDialogOpen, setResetDialogOpen] = useState(false);
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [resetError, setResetError] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [resetDialogOpen, setResetDialogOpen] = useState<boolean>(false);
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [resetError, setResetError] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
 
   useEffect(() => {
     // Fetch the user profile on component mount
@@ -24,7 +29,7 @@ const ProfilePage = () => {
       }
 
       try {
-        const response = await axios.get('http://localhost:3000/api/profile', {
+        const response = await axios.get<UserProfile>('http://localhost:3000/api/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsername(response.data.username);

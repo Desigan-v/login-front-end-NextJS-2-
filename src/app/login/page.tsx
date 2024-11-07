@@ -4,13 +4,20 @@ import axios from 'axios';
 import { useState } from 'react';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import { useRouter } from 'next/navigation';
+
+interface LoginResponse {
+  token: string;
+  username: string;
+  email: string;
+}
+
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axios.post<LoginResponse>('http://localhost:3000/api/login', {
@@ -39,9 +46,8 @@ const LoginPage = () => {
     }
   };
 
-
   return (
-    <Container maxWidth="sm" >
+    <Container maxWidth="sm">
       <Box display="flex" flexDirection="column" alignItems="center" mt={8}>
         <Typography variant="h4" gutterBottom>
           Log In
@@ -80,4 +86,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage; 
+export default LoginPage;
