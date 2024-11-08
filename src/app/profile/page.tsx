@@ -46,7 +46,7 @@ const ProfilePage = () => {
   // Handle Logout
   const handleLogout = () => {
     localStorage.removeItem('token'); // Clear token from localStorage
-    router.push('/login'); // Redirect to login page
+    router.push('/'); 
   };
 
   // Open the reset password dialog

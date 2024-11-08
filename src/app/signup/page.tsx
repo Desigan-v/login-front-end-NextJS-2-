@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import axios from 'axios';
 
@@ -13,13 +14,13 @@ const Signup = () => {
   const [email, setEmail] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const router = useRouter();
 
   const handleSignup = async () => {
     if (password !== confirmPassword) {
       setError("Passwords don't match!");
       return;
     }
-    
     try {
       const response = await axios.post<{ message: string }>('http://localhost:3000/api/signup', {
         username,
@@ -27,8 +28,9 @@ const Signup = () => {
         email,
       });
       alert(response.data.message);
+      router.push('/login');
+      
     } catch (error: any) {
-      // Handling axios error, assuming the error has response data of type ErrorResponse
       if (error.response) {
         setError(error.response.data.error);
       } else {
